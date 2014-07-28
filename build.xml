@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cyrus-test" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/*.rbc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.apk"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="lib/ant-javafx.jar"/>
+      <include name="lib/dt.jar"/>
+      <include name="lib/javafx-mx.jar"/>
+      <include name="lib/jconsole.jar"/>
+      <include name="lib/sa-jdi.jar"/>
+      <include name="lib/tools.jar"/>
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/htmlconverter.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.maven:_junit:junit:4.11.classpath">
+    <pathelement location="jars/junit-4.11.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath">
+    <pathelement location="jars/hamcrest-core-1.3.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module test-test -->
+  
+  <dirname property="module.cyrus-test.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.cyrus-test" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.cyrus-test" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.cyrus-test" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.cyrus-test" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
+  
+  <property name="cyrus-test.output.dir" value="${module.cyrus-test.basedir}/target/classes"/>
+  <property name="cyrus-test.testoutput.dir" value="${module.cyrus-test.basedir}/target/test-classes"/>
+  
+  <path id="cyrus-test.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="cyrus-test.module.production.classpath">
+    <path refid="${module.jdk.classpath.cyrus-test}"/>
+  </path>
+  
+  <path id="cyrus-test.runtime.production.module.classpath">
+    <pathelement location="${cyrus-test.output.dir}"/>
+  </path>
+  
+  <path id="cyrus-test.module.classpath">
+    <path refid="${module.jdk.classpath.cyrus-test}"/>
+    <pathelement location="${cyrus-test.output.dir}"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="cyrus-test.runtime.module.classpath">
+    <pathelement location="${cyrus-test.testoutput.dir}"/>
+    <pathelement location="${cyrus-test.output.dir}"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.cyrus-test">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.cyrus-test">
+    <patternset refid="excluded.from.module.cyrus-test"/>
+  </patternset>
+  
+  <path id="cyrus-test.module.sourcepath">
+    <dirset dir="${module.cyrus-test.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="cyrus-test.module.test.sourcepath">
+    <dirset dir="${module.cyrus-test.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.cyrus-test" depends="compile.module.cyrus-test.production,compile.module.cyrus-test.tests" description="Compile module cyrus-test"/>
+  
+  <target name="compile.module.cyrus-test.production" description="Compile module cyrus-test; production classes">
+    <mkdir dir="${cyrus-test.output.dir}"/>
+    <javac destdir="${cyrus-test.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.cyrus-test}/javac">
+      <compilerarg line="${compiler.args.cyrus-test}"/>
+      <bootclasspath refid="cyrus-test.module.bootclasspath"/>
+      <classpath refid="cyrus-test.module.production.classpath"/>
+      <src refid="cyrus-test.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.cyrus-test"/>
+    </javac>
+    
+    <copy todir="${cyrus-test.output.dir}">
+      <fileset dir="${module.cyrus-test.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.cyrus-test.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.cyrus-test.tests" depends="compile.module.cyrus-test.production" description="compile module cyrus-test; test classes" unless="skip.tests">
+    <mkdir dir="${cyrus-test.testoutput.dir}"/>
+    <javac destdir="${cyrus-test.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.cyrus-test}/javac">
+      <compilerarg line="${compiler.args.cyrus-test}"/>
+      <bootclasspath refid="cyrus-test.module.bootclasspath"/>
+      <classpath refid="cyrus-test.module.classpath"/>
+      <src refid="cyrus-test.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.cyrus-test"/>
+    </javac>
+    
+    <copy todir="${cyrus-test.testoutput.dir}">
+      <fileset dir="${module.cyrus-test.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.cyrus-test" description="cleanup module">
+    <delete dir="${cyrus-test.output.dir}"/>
+    <delete dir="${cyrus-test.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.cyrus-test" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.cyrus-test" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

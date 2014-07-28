@@ -1,0 +1,92 @@
+REQUIREMENTS
+
+- Java 1.8
+- Junit (the jars are included in the jars directory)
+    - junit-4.11.jar
+    - hamcrest-core-1.3.jar
+
+HOW TO BUILD
+
+I have included IntelliJ IDEA project files. You may import this project using them and run the project
+from there. There is also a maven pom file and an ant build xml file. If you use maven, please uncomment
+the dependencies in the pom.xml file.
+
+Compile classes with ant:
+    cd to the root
+    ant all
+
+Running class that are already compiled:
+    Run tests (execute from :
+    java -classpath "target/test-classes:target/classes:jars/junit-4.11.jar:jars/hamcrest-core-1.3.jar" org.junit.runner.JUnitCore <class name>
+    example:
+        java -classpath "target/test-classes:target/classes:jars/junit-4.11.jar:jars/hamcrest-core-1.3.jar"
+                    org.junit.runner.JUnitCore com.test.model.PeopleTest
+
+    Compile and run program:
+    java -classpath "target/classes" com.tes.MainTest
+
+
+FILE FORMATS
+
+The following lays out how the file formats are expected to be. I will also lay forth some
+assumptions that I made.
+
+    I assume that no commas (,) or pipes (|) are used anywhere in any file format except for the
+    delimiter. I use this so I can determined which parser to use. For example, if a file contains
+    a comma then use the comma parser, if it contains a pipe use a pipe parser, and finally it if
+    it contains a space it uses the space parser. I do the check in this order so that spaces can
+    be used within the other formats.
+
+
+    *Pipe-delimited files have the following format:
+
+    <LastName> | <FirstName> | <MiddleInitial> | <Gender> | <FavoriteColor> | <DateOfBirth>
+
+        <LastName>          - A basic string (cannot contain the delimiter)
+        <FirstName>         - A basic string (cannot contain the delimiter)
+        <MiddleInitial>     - A single character (cannot contain the delimiter)
+        <Gender>            - M for Male and F for Female
+        <FavoriteColor>     - A basic string (cannot contain the delimiter)
+        <DateOfBirth>       - has the following format: M-d-yyyy
+
+        Example:
+            Smith | Steve | D | M | Red | 3-3-1985
+            Bonk | Radek | S | M | Green | 6-3-1975
+            Bouillon | Francis | G | M | Blue | 6-3-1975
+
+
+    *Comma-delimited file looks like this:
+
+    <LastName>, <FirstName>, <Gender>, <FavoriteColor>, <DateOfBirth>
+
+        <LastName>          - A basic string (cannot contain the delimiter)
+        <FirstName>         - A basic string (cannot contain the delimiter)
+        <Gender>            - Male or Female
+        <FavoriteColor>     - A basic string (cannot contain the delimiter)
+        <DateOfBirth>       - has the following format: M/d/yyyy
+
+    Example:
+        Abercrombie, Neil, Male, Tan, 2/13/1943
+        Bishop, Timothy, Male, Yellow, 4/23/1967
+        Kelly, Sue, Female, Pink, 7/12/1959
+
+
+    *Space-delimited file looks like this:
+
+    <LastName> <FirstName> <MiddleInitial> <Gender> <DateOfBirth> <FavoriteColor>
+
+        <LastName>          - A basic string (cannot contain the delimiter)
+        <FirstName>         - A basic string (cannot contain the delimiter)
+        <MiddleInitial>     - A single character (cannot contain the delimiter)
+        <Gender>            - A single character: M for Male and F for Female
+        <FavoriteColor>     - A basic string (cannot contain the delimiter)
+        <DateOfBirth>       - has the following format: M-d-yyyy
+
+    Example:
+        Kournikova Anna F F 6-3-1975 Red
+        Hingis Martina M F 4-2-1979 Green
+        Seles Monica H F 12-2-1973 Black
+
+TESTS
+
+To see a list of tests that were run please look at the file name TestResults.html.
